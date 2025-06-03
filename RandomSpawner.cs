@@ -52,7 +52,7 @@ public class RandomSpawner : MonoBehaviour
         randomPosition = new Vector3(
             Random.Range(-5, 15),
             6f,
-            Random.Range(-5, 15)
+            Random.Range(7, -30)
         );
         attempt++;
     }

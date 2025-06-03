@@ -13,6 +13,7 @@ public class collisionTrigger : MonoBehaviour
             {
                 spawner.playerCollisionCount++;
                 Debug.Log("충돌 카운트: " + spawner.playerCollisionCount);
+                
             }
 
             Destroy(gameObject); // 부딪힌 투사체는 제거된다.

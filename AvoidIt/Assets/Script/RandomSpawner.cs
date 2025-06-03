@@ -23,15 +23,9 @@ public class RandomSpawner : MonoBehaviour
     {
         if (spawnCount >= maxSpawnCount) return;    //종료조건(재설정 필요요)
 
-        int clonesToSpawn = spawnCount / 10 + 1;    //한번에 소환되는 투사체의 갯수
+        float clonesToSpawn = spawnCount / 10 + 1;    //한번에 소환되는 투사체의 갯수
         float min = minLaunchForce*(clonesToSpawn/2);
         float max = maxLaunchForce*(clonesToSpawn/2);
-
-        if (clonesToSpawn == 1)// 초기에 너무 느리지 않도록 조절
-        {
-            min = maxLaunchForce;
-            max = maxLaunchForce;
-        }
 
         if (clonesToSpawn > 10) //투사체는 최대 10개로 제한
         {

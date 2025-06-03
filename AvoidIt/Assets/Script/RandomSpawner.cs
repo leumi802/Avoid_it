@@ -5,7 +5,7 @@ public class RandomSpawner : MonoBehaviour
     public GameObject prefabToSpawn;    //투사체 원본
     public GameObject Player;   //플레이어
     public int playerCollisionCount = 0;    //충돌 횟수
-    public float minDistanceFromPlayer = 1f;    //플레이어와 투사체의 최소간격
+    public float minDistanceFromPlayer = 0.5f;    //플레이어와 투사체의 최소간격
     public float spawnInterval = 2f;  // 생성 간격
     public float minLaunchForce = 2f;   //최소 속도
     public float maxLaunchForce = 5f;   //최대 속도
@@ -77,10 +77,19 @@ public class RandomSpawner : MonoBehaviour
             {
                 rb = obj.AddComponent<Rigidbody>();
             }
+            rb.useGravity = false;
+            rb.linearDamping = 0f;
             // 투사체가 xz축의의 무작위 방향으로 날아가도록 함
             Vector2 random2D = Random.insideUnitCircle.normalized;
             Vector3 direction = new Vector3(random2D.x, 0f, random2D.y);
             rb.AddForce(direction * Random.Range(min,max), ForceMode.Impulse);
+
+            // 투사체의 방향을을 날아가는 방향으로 설정
+            if (direction != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
+                obj.transform.rotation = lookRotation * Quaternion.Euler(90f, 0f, 0f);
+            }
 
                spawnCount++;    // 투사체 발사 갯수 카운트 증가
             } 

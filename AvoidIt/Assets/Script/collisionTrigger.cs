@@ -13,6 +13,17 @@ public class collisionTrigger : MonoBehaviour
             {
                 spawner.playerCollisionCount++;
                 Debug.Log("충돌 카운트: " + spawner.playerCollisionCount);
+                if(spawner.playerCollisionCount>2){
+                    Debug.Log("3회 이상 충돌함: 프로그램 종료됨.");
+
+                    #if UNITY_EDITOR
+                    // 에디터에서는 플레이 모드 종료
+                        UnityEditor.EditorApplication.isPlaying = false;
+                    #else
+                    // 빌드된 게임에서는 종료
+                        Application.Quit();
+                    #endif
+                }
                 
             }
 

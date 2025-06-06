@@ -12,8 +12,8 @@ public class CollisionTrigger : MonoBehaviour
             if (spawner != null)
             {
                 spawner.playerCollisionCount++;
-                Debug.Log("충돌 카운트: " + spawner.playerCollisionCount);
-                if(spawner.playerCollisionCount>2){
+                Debug.Log("충돌 카운트: " + spawner.playerCollisionCount);  //충돌시에 충돌횟수를 로그에 출력
+                if(spawner.playerCollisionCount>2){ //충돌 횟수가 3회 이상인 경우에 로그를 출력
                     Debug.Log("3회 이상 충돌함: 프로그램 종료됨.");
 
                     #if UNITY_EDITOR

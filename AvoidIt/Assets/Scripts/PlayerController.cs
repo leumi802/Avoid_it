@@ -4,10 +4,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // 이동 관련 변수
-    public float moveSpeed = 3f;
+    public float moveSpeed = 4f;
     public float sprintMultiplier = 1.5f;
-    public float jumpForce = 0.8f; // 낮은 점프
-    public int maxJumpCount = 2;
+    public float jumpForce = 10f; // 점프 힘 증가
+    public int maxJumpCount = 2;  // 이중 점프 가능
     public float gravityMultiplier = 2.5f; // 중력 강화
     public float rotationSpeed = 700f; // 회전 속도
 
@@ -48,9 +48,9 @@ public class PlayerController : MonoBehaviour
             jumpCount = 0;  // 점프 횟수 초기화
         }
 
-        // 이동 입력 받기
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        // 이동 입력 받기 (Input.GetAxisRaw로 변경)
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
@@ -64,16 +64,21 @@ public class PlayerController : MonoBehaviour
 
         // 스프린트 처리
         float speed = moveSpeed;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))  // Shift 누르면 스프린트
             speed *= sprintMultiplier;
 
         // 이동
         controller.Move(move * speed * Time.deltaTime);
 
-        // 점프 처리
-        if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)  // 기본적으로 점프만 처리
+        // 점프 처리 (이중 점프 포함)
+        if (isGrounded && Input.GetButtonDown("Jump"))
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
+            jumpCount = 1;  // 첫 번째 점프
+        }
+        else if (!isGrounded && jumpCount < maxJumpCount && Input.GetButtonDown("Jump"))
+        {
+            velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);  // 두 번째 점프
             jumpCount++;
         }
 
@@ -81,7 +86,7 @@ public class PlayerController : MonoBehaviour
         velocity.y += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        // 애니메이션 처리 (걷기)
+        // 애니메이션 처리 (걷기 애니메이션)
         AnimatePlayer(horizontal, vertical);
 
         // 플레이어 회전 처리 (투사체나 타겟을 바라보는 기능)
@@ -90,18 +95,9 @@ public class PlayerController : MonoBehaviour
 
     private void AnimatePlayer(float horizontal, float vertical)
     {
-        // 걷기 애니메이션
-        float movementSpeed = new Vector3(horizontal, 0, vertical).magnitude;
-        if (movementSpeed > 0.1f)  // 약간의 속도 차이를 두어 걷기 애니메이션이 부드럽게 전환되도록
-        {
-            animator.SetBool("isWalking", true);
-        }
-        else
-        {
-            animator.SetBool("isWalking", false);
-        }
-
-        // 점프 애니메이션 제거: 그냥 점프는 키 입력만 반영
+        // 이동 방향에 따른 애니메이션 상태 처리
+        bool isWalking = horizontal != 0 || vertical != 0;
+        animator.SetBool("isWalking", isWalking);  // 이동 중이면 걷기 애니메이션 활성화
     }
 
     private void RotateTowardsTarget()

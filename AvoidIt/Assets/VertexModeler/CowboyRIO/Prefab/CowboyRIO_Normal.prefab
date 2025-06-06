@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8315756949904456633}
   m_Layer: 0
   m_Name: CowboyRIO_Normal
-  m_TagString: Untagged
+  m_TagString: wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,11 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874e43f1f82c7ad45b71815fbd1a9a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 5
-  sprintSpeed: 10
+  moveSpeed: 3
+  sprintMultiplier: 1.5
   jumpForce: 5
-  gravity: -15
   maxJumpCount: 2
+  gravityMultiplier: 2.5
+  rotationSpeed: 700
+  animator: {fileID: 0}
+  target: {fileID: 0}
+  cameraTransform: {fileID: 0}
 --- !u!143 &8315756949904456633
 CharacterController:
   m_ObjectHideFlags: 0

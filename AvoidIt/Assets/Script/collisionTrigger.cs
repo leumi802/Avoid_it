@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class collisionTrigger : MonoBehaviour
+public class CollisionTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
@@ -8,7 +8,7 @@ public class collisionTrigger : MonoBehaviour
         {
             Debug.Log("트리거 충돌 감지됨: " + other.name);
 
-            var spawner = FindObjectOfType<RandomSpawner>();
+            var spawner = FindAnyObjectByType<RandomSpawner>();
             if (spawner != null)
             {
                 spawner.playerCollisionCount++;

@@ -57,7 +57,7 @@ public class RandomSpawner : MonoBehaviour
                 obj.transform.localScale = new Vector3(3f, 3f, 3f);    // 투사체 크기 확대
                 Rigidbody rb = obj.GetComponent<Rigidbody>();   // 투사체에 rigidBody 속성 부여
                 obj.AddComponent<AutoDestroyWhenFall>();    // 투사체가 일정 구간을 지나면 사라지도록 함
-                obj.AddComponent<collisionTrigger>();   // 플레이어와 투사체가 닿으면 카운트가 증가가
+                obj.AddComponent<CollisionTrigger>();   // 플레이어와 투사체가 닿으면 카운트가 증가
 
             if (!obj.TryGetComponent<Collider>(out Collider col))   // 투사체에 collider가 설정되어 있지 않은경우 자동설정
             {
